@@ -10,7 +10,21 @@ namespace StringCalculator
     {
         public int Add(string numbers)
         {
-            return 0;
+            int count = 0;
+            if (String.IsNullOrEmpty(numbers))
+            {
+                return count;
+            }
+
+            var list = numbers.Split(',');
+            foreach (string number in list)
+            {
+                int numberAsInt = int.Parse(number);
+                count += numberAsInt;
+            }
+
+            return count;
+            
         }
     }
 }
