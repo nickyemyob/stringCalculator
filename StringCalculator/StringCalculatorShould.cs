@@ -1,49 +1,28 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
+using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace StringCalculator
 {
-    [TestClass]
+    [TestFixture]
     public class StringCalculatorShould
     {
-        [TestMethod]
-        public void Return0WithEmptyString()
+        private static readonly object[] AddCases =
+        {
+            new object[] {0, ""},
+            new object[] {0, null},
+            new object[] {1, "1"},
+            new object[] {3, "1,2"},
+        };
+
+        [Test, TestCaseSource(nameof(AddCases))]
+        public void AddStrings(int expected, string numbers)
         {
             StringCalculator stringCalculator = new StringCalculator();
-
-            var result = stringCalculator.Add("");
-
-            Assert.AreEqual(0, result);
+            var result = stringCalculator.Add(numbers);
+            Assert.AreEqual(expected, result);
         }
-
-        [TestMethod]
-        public void Return0WhenStringIsNull()
-        {
-            StringCalculator stringCalculator = new StringCalculator();
-
-            var result = stringCalculator.Add(null);
-
-            Assert.AreEqual(0, result);
-        }
-
-        [TestMethod]
-        public void Return1WhenStringIs1()
-        {
-            StringCalculator stringCalculator = new StringCalculator();
-
-            var result = stringCalculator.Add("1");
-
-            Assert.AreEqual(1, result);
-        }
-
-        [TestMethod]
-        public void Return3WhenStringIs1and2()
-        {
-            StringCalculator stringCalculator = new StringCalculator();
-
-            var result = stringCalculator.Add("1,2");
-
-            Assert.AreEqual(3, result);
-        }
+        
     }
 }
