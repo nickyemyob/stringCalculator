@@ -14,7 +14,10 @@ namespace StringCalculator
             new object[] {0, null},
             new object[] {1, "1"},
             new object[] {3, "1,2"},
-            new object[] {4800, "1,22,333,4444"}
+            new object[] {4800, "1,22,333,4444"},
+            new object[] {2, "1\n1"},
+            new object[] {6, "1\n2,3"}
+
         };
 
         [Test, TestCaseSource(nameof(AddCases))]

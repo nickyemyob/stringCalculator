@@ -17,10 +17,15 @@ namespace StringCalculator
             }
 
             var list = numbers.Split(',');
+
             foreach (string number in list)
             {
-                int numberAsInt = int.Parse(number);
-                count += numberAsInt;
+                var numbersSplitByNewLine = number.Split('\n');
+                foreach (string number2 in numbersSplitByNewLine)
+                {
+                    int numberAsInt = int.Parse(number2);
+                    count += numberAsInt;
+                }
             }
 
             return count;
