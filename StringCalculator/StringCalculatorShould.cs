@@ -16,7 +16,8 @@ namespace StringCalculator
             new object[] {3, "1,2"},
             new object[] {4800, "1,22,333,4444"},
             new object[] {2, "1\n1"},
-            new object[] {6, "1\n2,3"}
+            new object[] {6, "1\n2,3"},
+            new object[] {1, "//\n\n1"}
 
         };
 
