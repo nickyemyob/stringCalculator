@@ -50,7 +50,7 @@ namespace StringCalculator
 
         public char GetDelimiter(string input)
         {
-            return Char.Parse(input.Substring(2));
+            return Char.Parse(input.Replace("//", ""));
         }
     }
 }
