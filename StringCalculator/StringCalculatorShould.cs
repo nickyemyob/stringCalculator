@@ -29,22 +29,31 @@ namespace StringCalculator
             Assert.AreEqual(expected, result);
         }
 
-        [Test]
-        public void ReturnCommaWhenDelimterIsAComma()
+        private static readonly object[] GetDelimiterCases =
+        {
+            new object[] {',', "//,"},
+            new object[] {'\n', "//\n"}
+        };
+
+        [Test, TestCaseSource(nameof(GetDelimiterCases))]
+        public void GetDelimiter(char expected, string input)
         {
             StringCalculator stringCalculator = new StringCalculator();
-            var result = stringCalculator.GetDelimiter("//,");
-            Assert.AreEqual(',', result);
+            var result = stringCalculator.GetDelimiter(input);
+            Assert.AreEqual(expected, result);
         }
 
-        [Test]
-        public void ReturnAnArrayOfOneAndTwoWhen()
+        private static readonly object[] GetNumbersFromDelimitedStringCases =
+        {
+            new object[] {new string[] {"1","2"}, "1,2", ','}
+        };
+
+        [Test, TestCaseSource(nameof(GetNumbersFromDelimitedStringCases))]
+        public void GetNumbersFromDelimitedString(string[] expected, string str, char delimiter)
         {
             StringCalculator stringCalculator = new StringCalculator();
-            string[] expectedResult = new string[]{"1", "2"};
-
-            var result = stringCalculator.GetNumbers("1,2", ',');
-            CollectionAssert.AreEqual(expectedResult, result);
+            var result = stringCalculator.GetNumbers(str, delimiter);
+            CollectionAssert.AreEqual(expected, result);
         }
 
     }
