@@ -16,7 +16,18 @@ namespace StringCalculator
                 return count;
             }
 
-            var list = numbers.Split(',');
+            string[] list;
+
+            if (numbers.StartsWith("//"))
+            {
+                var delimitersAndNumbers = numbers.Split('\n');
+                var delimeter = GetDelimiter(delimitersAndNumbers[0]);
+                list = GetNumbers(delimitersAndNumbers[1], delimeter);
+            }
+            else
+            {
+                list = numbers.Split(',');
+            }
 
             foreach (string number in list)
             {
@@ -30,6 +41,16 @@ namespace StringCalculator
 
             return count;
             
+        }
+
+        public string[] GetNumbers(string input, char delimeter)
+        {
+            return input.Split(delimeter);
+        }
+
+        public char GetDelimiter(string input)
+        {
+            return Char.Parse(input.Substring(2));
         }
     }
 }
