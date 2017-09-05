@@ -18,7 +18,8 @@ namespace StringCalculator
             new object[] {4800, "1,22,333,4444"},
             new object[] {2, "1\n1"},
             new object[] {6, "1\n2,3"},
-            new object[] {3, "//.\n1.2"}
+            new object[] {3, "//.\n1.2"},
+            new object[] {3, "//\n\n1\n2"}
         };
 
         [Test, TestCaseSource(nameof(AddCases))]
@@ -29,30 +30,30 @@ namespace StringCalculator
             Assert.AreEqual(expected, result);
         }
 
-        private static readonly object[] GetDelimiterCases =
+        private static readonly object[] RemoveSlashesCases =
         {
             new object[] {',', "//,"},
             new object[] {'\n', "//\n"}
         };
 
-        [Test, TestCaseSource(nameof(GetDelimiterCases))]
-        public void GetDelimiter(char expected, string input)
+        [Test, TestCaseSource(nameof(RemoveSlashesCases))]
+        public void RemoveSlashes(char expected, string input)
         {
             StringCalculator stringCalculator = new StringCalculator();
-            var result = stringCalculator.GetDelimiter(input);
+            var result = stringCalculator.RemoveSlashes(input);
             Assert.AreEqual(expected, result);
         }
 
-        private static readonly object[] GetNumbersFromDelimitedStringCases =
+        private static readonly object[] SplitStringByDelimiterCases =
         {
             new object[] {new string[] {"1","2"}, "1,2", ','}
         };
 
-        [Test, TestCaseSource(nameof(GetNumbersFromDelimitedStringCases))]
-        public void GetNumbersFromDelimitedString(string[] expected, string str, char delimiter)
+        [Test, TestCaseSource(nameof(SplitStringByDelimiterCases))]
+        public void SplitStringByDelimiter(string[] expected, string str, char delimiter)
         {
             StringCalculator stringCalculator = new StringCalculator();
-            var result = stringCalculator.GetNumbers(str, delimiter);
+            var result = stringCalculator.SplitStringByDelimiter(str, delimiter);
             CollectionAssert.AreEqual(expected, result);
         }
 

@@ -16,17 +16,26 @@ namespace StringCalculator
                 return count;
             }
 
-            string[] list;
+            List<string> list;
 
             if (numbers.StartsWith("//"))
             {
-                var delimitersAndNumbers = numbers.Split('\n');
-                var delimeter = GetDelimiter(delimitersAndNumbers[0]);
-                list = GetNumbers(delimitersAndNumbers[1], delimeter);
+                List<string> delimitersAndNumbers = new List<string>(numbers.Split('\n'));
+                var delimeter = RemoveSlashes(delimitersAndNumbers[0]);
+                if (delimeter.Equals('\n'))
+                {
+                    delimitersAndNumbers.RemoveAt(0);
+                    delimitersAndNumbers.RemoveAt(0);
+                    list = delimitersAndNumbers;
+                }
+                else
+                {
+                    list = new List<string>(SplitStringByDelimiter(delimitersAndNumbers[1], delimeter));
+                }
             }
             else
             {
-                list = numbers.Split(',');
+                list = new List<string>(numbers.Split(','));
             }
 
             foreach (string number in list)
@@ -43,14 +52,15 @@ namespace StringCalculator
             
         }
 
-        public string[] GetNumbers(string input, char delimeter)
+        public string[] SplitStringByDelimiter(string input, char delimeter)
         {
             return input.Split(delimeter);
         }
 
-        public char GetDelimiter(string input)
+        public char RemoveSlashes(string input)
         {
-            return Char.Parse(input.Replace("//", ""));
+            var stringWithoutSlashes = input.Replace("//", "");
+            return stringWithoutSlashes.Equals("") ? '\n' : char.Parse(stringWithoutSlashes);
         }
     }
 }
