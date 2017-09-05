@@ -44,19 +44,6 @@ namespace StringCalculator
             Assert.AreEqual(expected, result);
         }
 
-        private static readonly object[] SplitStringByDelimiterCases =
-        {
-            new object[] {new string[] {"1","2"}, "1,2", ','}
-        };
-
-        [Test, TestCaseSource(nameof(SplitStringByDelimiterCases))]
-        public void SplitStringByDelimiter(string[] expected, string str, char delimiter)
-        {
-            StringCalculator stringCalculator = new StringCalculator();
-            var result = stringCalculator.SplitStringByDelimiter(str, delimiter);
-            CollectionAssert.AreEqual(expected, result);
-        }
-
         [Test]
         public void ThrowExceptionWhenGivenNegativeNumber()
         {

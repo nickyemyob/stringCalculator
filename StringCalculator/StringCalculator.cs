@@ -64,12 +64,7 @@ namespace StringCalculator
                 return delimitersAndNumbers;
             }
 
-            return new List<string>(SplitStringByDelimiter(delimitersAndNumbers[1], delimeter));
-        }
-
-        public string[] SplitStringByDelimiter(string input, char delimeter)
-        {
-            return input.Split(delimeter);
+            return new List<string>(delimitersAndNumbers[1].Split(delimeter));
         }
 
         public char RemoveSlashes(string input)
