@@ -73,8 +73,8 @@ namespace StringCalculator
 
         public char GetDelimiter(string stringContainingDelimiter)
         {
-            var stringWithoutSlashes = stringContainingDelimiter.Replace("//", "");
-            return stringWithoutSlashes.Equals("") ? '\n' : char.Parse(stringWithoutSlashes);
+            var delimiter = stringContainingDelimiter.Replace(DelimiterHeader, "");
+            return delimiter.Equals("") ? '\n' : char.Parse(delimiter);
         }
 
         private bool ContainsCustomDelimiter(string input)
