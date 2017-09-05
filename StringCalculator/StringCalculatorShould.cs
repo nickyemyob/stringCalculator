@@ -30,17 +30,17 @@ namespace StringCalculator
             Assert.AreEqual(expected, result);
         }
 
-        private static readonly object[] RemoveSlashesCases =
+        private static readonly object[] GetDelimiterCases =
         {
             new object[] {',', "//,"},
             new object[] {'\n', "//\n"}
         };
 
-        [Test, TestCaseSource(nameof(RemoveSlashesCases))]
-        public void RemoveSlashes(char expected, string input)
+        [Test, TestCaseSource(nameof(GetDelimiterCases))]
+        public void GetDelimiter(char expected, string input)
         {
             StringCalculator stringCalculator = new StringCalculator();
-            var result = stringCalculator.RemoveSlashes(input);
+            var result = stringCalculator.GetDelimiter(input);
             Assert.AreEqual(expected, result);
         }
 

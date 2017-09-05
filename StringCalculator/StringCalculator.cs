@@ -56,7 +56,7 @@ namespace StringCalculator
             if (!numbers.StartsWith("//")) return new List<string>(numbers.Split(','));
 
             List<string> delimitersAndNumbers = new List<string>(numbers.Split('\n'));
-            var delimeter = RemoveSlashes(delimitersAndNumbers[0]);
+            var delimeter = GetDelimiter(delimitersAndNumbers[0]);
             if (delimeter.Equals('\n'))
             {
                 delimitersAndNumbers.RemoveAt(0);
@@ -67,9 +67,9 @@ namespace StringCalculator
             return new List<string>(delimitersAndNumbers[1].Split(delimeter));
         }
 
-        public char RemoveSlashes(string input)
+        public char GetDelimiter(string stringContainingDelimiter)
         {
-            var stringWithoutSlashes = input.Replace("//", "");
+            var stringWithoutSlashes = stringContainingDelimiter.Replace("//", "");
             return stringWithoutSlashes.Equals("") ? '\n' : char.Parse(stringWithoutSlashes);
         }
     }
