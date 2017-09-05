@@ -40,7 +40,7 @@ namespace StringCalculator
         public void GetDelimiter(char expected, string input)
         {
             StringCalculator stringCalculator = new StringCalculator();
-            var result = stringCalculator.GetDelimiter(input);
+            var result = stringCalculator.ExtractDelimiter(input);
             Assert.AreEqual(expected, result);
         }
 

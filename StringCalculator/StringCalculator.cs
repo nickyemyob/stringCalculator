@@ -12,28 +12,27 @@ namespace StringCalculator
         private const string DelimiterHeader = "//";
         private static readonly char[] DefaultDelimiters = {',', '\n'};
 
-        public int Add(string numbers)
+        public int Add(string input)
         {
             var count = 0;
-            if (string.IsNullOrEmpty(numbers))
+            if (string.IsNullOrEmpty(input))
             {
                 return count;
             }
 
-            var list = ExtractNumbersToList(numbers);
-
+            var numbersAsStringList = ExtractNumbersToList(input);
+            var numbersAsIntList = numbersAsStringList.Select(int.Parse).ToList();
             var negativeNumbers = new List<int>();
 
-            foreach (var number in list)
+            foreach (var number in numbersAsIntList)
             {
-                var numberAsInt = int.Parse(number);
-                if (numberAsInt < 0)
+                if (number < 0)
                 {
-                    negativeNumbers.Add(numberAsInt);
+                    negativeNumbers.Add(number);
                 }
                 else
                 {
-                    count += numberAsInt;
+                    count += number;
                 }          
             }
 
@@ -59,11 +58,22 @@ namespace StringCalculator
             }
 
             var delimitersAndNumbers = new List<string>(numbers.Split(DelimitersAndNumbersSeparator));
-            var delimeter = GetDelimiter(delimitersAndNumbers[0]);
+            var delimiter = ExtractDelimiter(delimitersAndNumbers[0]);
 
-            if (!delimeter.Equals('\n'))
+            return ExtractNumbers(delimitersAndNumbers, delimiter);
+        }
+
+        public char ExtractDelimiter(string stringContainingDelimiter)
+        {
+            var delimiter = stringContainingDelimiter.Replace(DelimiterHeader, "");
+            return delimiter.Equals("") ? '\n' : char.Parse(delimiter);
+        }
+
+        private static IEnumerable<string> ExtractNumbers(IList<string> delimitersAndNumbers, char delimiter)
+        {
+             if (!delimiter.Equals('\n'))
             {
-                return new List<string>(delimitersAndNumbers[1].Split(delimeter));
+                return new List<string>(delimitersAndNumbers[1].Split(delimiter));
             }
 
             delimitersAndNumbers.RemoveAt(0);
@@ -71,13 +81,7 @@ namespace StringCalculator
             return delimitersAndNumbers;
         }
 
-        public char GetDelimiter(string stringContainingDelimiter)
-        {
-            var delimiter = stringContainingDelimiter.Replace(DelimiterHeader, "");
-            return delimiter.Equals("") ? '\n' : char.Parse(delimiter);
-        }
-
-        private bool ContainsCustomDelimiter(string input)
+        private static bool ContainsCustomDelimiter(string input)
         {
             return input.StartsWith(DelimiterHeader);
         }
