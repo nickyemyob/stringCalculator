@@ -16,29 +16,10 @@ namespace StringCalculator
                 return count;
             }
 
-            List<string> list;
-
-            if (numbers.StartsWith("//"))
-            {
-                List<string> delimitersAndNumbers = new List<string>(numbers.Split('\n'));
-                var delimeter = RemoveSlashes(delimitersAndNumbers[0]);
-                if (delimeter.Equals('\n'))
-                {
-                    delimitersAndNumbers.RemoveAt(0);
-                    delimitersAndNumbers.RemoveAt(0);
-                    list = delimitersAndNumbers;
-                }
-                else
-                {
-                    list = new List<string>(SplitStringByDelimiter(delimitersAndNumbers[1], delimeter));
-                }
-            }
-            else
-            {
-                list = new List<string>(numbers.Split(','));
-            }
+            List<string> list = ExtractNumbersToList(numbers);
 
             List<int> negativeNumbers = new List<int>();
+
             foreach (string number in list)
             {
                 var numbersSplitByNewLine = number.Split('\n');
@@ -68,6 +49,22 @@ namespace StringCalculator
             }
             throw new ArgumentException(errorMessage);
 
+        }
+
+        private List<string> ExtractNumbersToList(string numbers)
+        {
+            if (!numbers.StartsWith("//")) return new List<string>(numbers.Split(','));
+
+            List<string> delimitersAndNumbers = new List<string>(numbers.Split('\n'));
+            var delimeter = RemoveSlashes(delimitersAndNumbers[0]);
+            if (delimeter.Equals('\n'))
+            {
+                delimitersAndNumbers.RemoveAt(0);
+                delimitersAndNumbers.RemoveAt(0);
+                return delimitersAndNumbers;
+            }
+
+            return new List<string>(SplitStringByDelimiter(delimitersAndNumbers[1], delimeter));
         }
 
         public string[] SplitStringByDelimiter(string input, char delimeter)
