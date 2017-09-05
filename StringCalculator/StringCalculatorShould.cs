@@ -19,7 +19,7 @@ namespace StringCalculator
             new object[] {2, "1\n1"},
             new object[] {6, "1\n2,3"},
             new object[] {3, "//.\n1.2"},
-            new object[] {3, "//\n\n1\n2"}
+            new object[] {3, "//\n\n1\n2"},
         };
 
         [Test, TestCaseSource(nameof(AddCases))]
@@ -57,5 +57,13 @@ namespace StringCalculator
             CollectionAssert.AreEqual(expected, result);
         }
 
+        [Test]
+        public void ThrowExceptionWhenGivenNegativeNumber()
+        {
+            StringCalculator stringCalculator = new StringCalculator();
+            Assert.Throws<ArgumentException>(() => stringCalculator.Add("-1,-2"));
+
+            Assert.That(() => stringCalculator.Add("-1,-2"),Throws.TypeOf<ArgumentException>().With.Message.EqualTo("Negatives not allowed: -1 -2"));
+        }
     }
 }

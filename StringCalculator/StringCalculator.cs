@@ -38,18 +38,36 @@ namespace StringCalculator
                 list = new List<string>(numbers.Split(','));
             }
 
+            List<int> negativeNumbers = new List<int>();
             foreach (string number in list)
             {
                 var numbersSplitByNewLine = number.Split('\n');
                 foreach (string number2 in numbersSplitByNewLine)
                 {
                     int numberAsInt = int.Parse(number2);
-                    count += numberAsInt;
+                    if (numberAsInt < 0)
+                    {
+                        negativeNumbers.Add(numberAsInt);
+                    }
+                    else
+                    {
+                        count += numberAsInt;
+                    }
                 }
             }
 
-            return count;
-            
+            if (!negativeNumbers.Any())
+            {
+                return count;
+            }
+
+            string errorMessage = "Negatives not allowed:";
+            foreach (var number in negativeNumbers)
+            {
+                errorMessage += " " + number;
+            }
+            throw new ArgumentException(errorMessage);
+
         }
 
         public string[] SplitStringByDelimiter(string input, char delimeter)
