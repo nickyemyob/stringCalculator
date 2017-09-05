@@ -19,7 +19,7 @@ namespace StringCalculator
             new object[] {2, "1\n1"},
             new object[] {6, "1\n2,3"},
             new object[] {3, "//.\n1.2"},
-            new object[] {3, "//\n\n1\n2"},
+            new object[] {7, "//\n\n3\n4"},
         };
 
         [Test, TestCaseSource(nameof(AddCases))]
@@ -27,20 +27,6 @@ namespace StringCalculator
         {
             StringCalculator stringCalculator = new StringCalculator();
             var result = stringCalculator.Add(numbers);
-            Assert.AreEqual(expected, result);
-        }
-
-        private static readonly object[] GetDelimiterCases =
-        {
-            new object[] {',', "//,"},
-            new object[] {'\n', "//\n"}
-        };
-
-        [Test, TestCaseSource(nameof(GetDelimiterCases))]
-        public void GetDelimiter(char expected, string input)
-        {
-            StringCalculator stringCalculator = new StringCalculator();
-            var result = stringCalculator.ExtractDelimiter(input);
             Assert.AreEqual(expected, result);
         }
 

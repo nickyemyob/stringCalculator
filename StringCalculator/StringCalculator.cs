@@ -10,6 +10,7 @@ namespace StringCalculator
     {
         private const char DelimitersAndNumbersSeparator = '\n';
         private const string DelimiterHeader = "//";
+        private const string ErrorMessage = "Negatives not allowed:";
         private static readonly char[] DefaultDelimiters = {',', '\n'};
 
         public int Add(string input)
@@ -29,11 +30,9 @@ namespace StringCalculator
                 if (number < 0)
                 {
                     negativeNumbers.Add(number);
+                    continue;
                 }
-                else
-                {
-                    count += number;
-                }          
+                count += number;         
             }
 
             if (!negativeNumbers.Any())
@@ -41,11 +40,7 @@ namespace StringCalculator
                 return count;
             }
 
-            var errorMessage = "Negatives not allowed:";
-            foreach (var number in negativeNumbers)
-            {
-                errorMessage += " " + number;
-            }
+            var errorMessage = BuildErrorMessage(negativeNumbers);
             throw new ArgumentException(errorMessage);
 
         }
@@ -63,7 +58,7 @@ namespace StringCalculator
             return ExtractNumbers(delimitersAndNumbers, delimiter);
         }
 
-        public char ExtractDelimiter(string stringContainingDelimiter)
+        private char ExtractDelimiter(string stringContainingDelimiter)
         {
             var delimiter = stringContainingDelimiter.Replace(DelimiterHeader, "");
             return delimiter.Equals("") ? '\n' : char.Parse(delimiter);
@@ -84,6 +79,16 @@ namespace StringCalculator
         private static bool ContainsCustomDelimiter(string input)
         {
             return input.StartsWith(DelimiterHeader);
+        }
+
+        private string BuildErrorMessage(IEnumerable<int> negativeNumbers)
+        {
+            var errorMessage = ErrorMessage;
+            foreach (var number in negativeNumbers)
+            {
+                errorMessage += " " + number;
+            }
+            return errorMessage;
         }
     }
 }
