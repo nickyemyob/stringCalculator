@@ -6,26 +6,29 @@ using System.Threading.Tasks;
 
 namespace StringCalculator
 {
-    class StringCalculator
+    public class StringCalculator
     {
+        private const char DelimitersAndNumbersSeparator = '\n';
+        private const string DelimiterHeader = "//";
+
         public int Add(string numbers)
         {
-            int count = 0;
-            if (String.IsNullOrEmpty(numbers))
+            var count = 0;
+            if (string.IsNullOrEmpty(numbers))
             {
                 return count;
             }
 
-            List<string> list = ExtractNumbersToList(numbers);
+            var list = ExtractNumbersToList(numbers);
 
-            List<int> negativeNumbers = new List<int>();
+            var negativeNumbers = new List<int>();
 
-            foreach (string number in list)
+            foreach (var number in list)
             {
                 var numbersSplitByNewLine = number.Split('\n');
-                foreach (string number2 in numbersSplitByNewLine)
+                foreach (var number2 in numbersSplitByNewLine)
                 {
-                    int numberAsInt = int.Parse(number2);
+                    var numberAsInt = int.Parse(number2);
                     if (numberAsInt < 0)
                     {
                         negativeNumbers.Add(numberAsInt);
@@ -42,7 +45,7 @@ namespace StringCalculator
                 return count;
             }
 
-            string errorMessage = "Negatives not allowed:";
+            var errorMessage = "Negatives not allowed:";
             foreach (var number in negativeNumbers)
             {
                 errorMessage += " " + number;
@@ -51,26 +54,35 @@ namespace StringCalculator
 
         }
 
-        private List<string> ExtractNumbersToList(string numbers)
+        private IEnumerable<string> ExtractNumbersToList(string numbers)
         {
-            if (!numbers.StartsWith("//")) return new List<string>(numbers.Split(','));
-
-            List<string> delimitersAndNumbers = new List<string>(numbers.Split('\n'));
-            var delimeter = GetDelimiter(delimitersAndNumbers[0]);
-            if (delimeter.Equals('\n'))
+            if (!ContainsCustomDelimiter(numbers))
             {
-                delimitersAndNumbers.RemoveAt(0);
-                delimitersAndNumbers.RemoveAt(0);
-                return delimitersAndNumbers;
+                return new List<string>(numbers.Split(','));
             }
 
-            return new List<string>(delimitersAndNumbers[1].Split(delimeter));
+            var delimitersAndNumbers = new List<string>(numbers.Split(DelimitersAndNumbersSeparator));
+            var delimeter = GetDelimiter(delimitersAndNumbers[0]);
+
+            if (!delimeter.Equals('\n'))
+            {
+                return new List<string>(delimitersAndNumbers[1].Split(delimeter));
+            }
+
+            delimitersAndNumbers.RemoveAt(0);
+            delimitersAndNumbers.RemoveAt(0);
+            return delimitersAndNumbers;
         }
 
         public char GetDelimiter(string stringContainingDelimiter)
         {
             var stringWithoutSlashes = stringContainingDelimiter.Replace("//", "");
             return stringWithoutSlashes.Equals("") ? '\n' : char.Parse(stringWithoutSlashes);
+        }
+
+        private bool ContainsCustomDelimiter(string input)
+        {
+            return input.StartsWith(DelimiterHeader);
         }
     }
 }
