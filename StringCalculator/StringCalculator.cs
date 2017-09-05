@@ -10,6 +10,7 @@ namespace StringCalculator
     {
         private const char DelimitersAndNumbersSeparator = '\n';
         private const string DelimiterHeader = "//";
+        private static readonly char[] DefaultDelimiters = {',', '\n'};
 
         public int Add(string numbers)
         {
@@ -25,19 +26,15 @@ namespace StringCalculator
 
             foreach (var number in list)
             {
-                var numbersSplitByNewLine = number.Split('\n');
-                foreach (var number2 in numbersSplitByNewLine)
+                var numberAsInt = int.Parse(number);
+                if (numberAsInt < 0)
                 {
-                    var numberAsInt = int.Parse(number2);
-                    if (numberAsInt < 0)
-                    {
-                        negativeNumbers.Add(numberAsInt);
-                    }
-                    else
-                    {
-                        count += numberAsInt;
-                    }
+                    negativeNumbers.Add(numberAsInt);
                 }
+                else
+                {
+                    count += numberAsInt;
+                }          
             }
 
             if (!negativeNumbers.Any())
@@ -58,7 +55,7 @@ namespace StringCalculator
         {
             if (!ContainsCustomDelimiter(numbers))
             {
-                return new List<string>(numbers.Split(','));
+                return new List<string>(numbers.Split(DefaultDelimiters));
             }
 
             var delimitersAndNumbers = new List<string>(numbers.Split(DelimitersAndNumbersSeparator));
