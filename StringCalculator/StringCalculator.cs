@@ -62,17 +62,28 @@ namespace StringCalculator
             return ExtractNumbers(delimitersAndNumbers, delimiter);
         }
 
-        private char ExtractDelimiter(string stringContainingDelimiter)
+        private string ExtractDelimiter(string stringContainingDelimiter)
         {
             var delimiter = stringContainingDelimiter.Replace(DelimiterHeader, "");
-            return delimiter.Equals("") ? '\n' : char.Parse(delimiter);
+            if (delimiter.Equals(""))
+            {
+                return "\n";
+            }
+            var firstBracketIndex = delimiter.IndexOf("[", StringComparison.Ordinal);
+            var lastBracketIndex = delimiter.LastIndexOf("]", StringComparison.Ordinal);
+            if (firstBracketIndex <= -1 || lastBracketIndex <= -1)
+            {
+                return delimiter;
+            }
+            var length = lastBracketIndex - firstBracketIndex - 1;
+            return delimiter.Substring(firstBracketIndex + 1, length);
         }
 
-        private static IEnumerable<string> ExtractNumbers(IList<string> delimitersAndNumbers, char delimiter)
+        private static IEnumerable<string> ExtractNumbers(IList<string> delimitersAndNumbers, string delimiter)
         {
-             if (!delimiter.Equals('\n'))
+             if (!delimiter.Equals("\n"))
             {
-                return new List<string>(delimitersAndNumbers[1].Split(delimiter));
+                return new List<string>(delimitersAndNumbers[1].Split(new [] { delimiter }, StringSplitOptions.None));
             }
 
             delimitersAndNumbers.RemoveAt(0);

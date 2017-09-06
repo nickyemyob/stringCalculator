@@ -21,7 +21,8 @@ namespace StringCalculator
             new object[] {3, "//.\n1.2"},
             new object[] {7, "//\n\n3\n4"},
             new object[] {2, "//.\n2.1001"},
-            new object[] {1002, "//.\n2.1000"}
+            new object[] {1002, "//.\n2.1000"},
+            new object[] {6, "//[***]\n1***2***3"}
         };
 
         [Test, TestCaseSource(nameof(AddCases))]
