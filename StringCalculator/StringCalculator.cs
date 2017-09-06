@@ -32,6 +32,10 @@ namespace StringCalculator
                     negativeNumbers.Add(number);
                     continue;
                 }
+                if (number > 1000)
+                {
+                    continue;
+                }
                 count += number;         
             }
 
