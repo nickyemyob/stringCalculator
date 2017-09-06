@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -62,28 +63,44 @@ namespace StringCalculator
             return ExtractNumbers(delimitersAndNumbers, delimiter);
         }
 
-        private string ExtractDelimiter(string stringContainingDelimiter)
+        private string[] ExtractDelimiter(string stringContainingDelimiter)
         {
             var delimiter = stringContainingDelimiter.Replace(DelimiterHeader, "");
             if (delimiter.Equals(""))
             {
-                return "\n";
+                return new [] { "\n" };
             }
             var firstBracketIndex = delimiter.IndexOf("[", StringComparison.Ordinal);
             var lastBracketIndex = delimiter.LastIndexOf("]", StringComparison.Ordinal);
             if (firstBracketIndex <= -1 || lastBracketIndex <= -1)
             {
-                return delimiter;
+                return new[] {delimiter};
             }
-            var length = lastBracketIndex - firstBracketIndex - 1;
-            return delimiter.Substring(firstBracketIndex + 1, length);
+
+            var d = "";
+            var delimiters = new List<string>();
+            foreach (var str in delimiter)
+            {
+                if (str.Equals('['))
+                {
+                } else if (str.Equals(']'))
+                {
+                    delimiters.Add(d);
+                    d = "";
+                }
+                else
+                {
+                    d += str;
+                }
+            }
+            return delimiters.ToArray();
         }
 
-        private static IEnumerable<string> ExtractNumbers(IList<string> delimitersAndNumbers, string delimiter)
+        private static IEnumerable<string> ExtractNumbers(IList<string> delimitersAndNumbers, string[] delimiter)
         {
-             if (!delimiter.Equals("\n"))
+             if (!delimiter.Contains("\n"))
             {
-                return new List<string>(delimitersAndNumbers[1].Split(new [] { delimiter }, StringSplitOptions.None));
+                return new List<string>(delimitersAndNumbers[1].Split(delimiter, StringSplitOptions.None));
             }
 
             delimitersAndNumbers.RemoveAt(0);
