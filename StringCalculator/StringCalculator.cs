@@ -77,20 +77,27 @@ namespace StringCalculator
                 return new[] {delimiter};
             }
 
-            var d = "";
+            return ExtractMultipleDelimiters(delimiter);
+           
+        }
+
+        private static string[] ExtractMultipleDelimiters(string multipleDelimiters)
+        {
+            var tempDelimiter = "";
             var delimiters = new List<string>();
-            foreach (var str in delimiter)
+            foreach (var str in multipleDelimiters)
             {
                 if (str.Equals('['))
                 {
-                } else if (str.Equals(']'))
+                }
+                else if (str.Equals(']'))
                 {
-                    delimiters.Add(d);
-                    d = "";
+                    delimiters.Add(tempDelimiter);
+                    tempDelimiter = "";
                 }
                 else
                 {
-                    d += str;
+                    tempDelimiter += str;
                 }
             }
             return delimiters.ToArray();
@@ -103,10 +110,16 @@ namespace StringCalculator
                 return new List<string>(delimitersAndNumbers[1].Split(delimiter, StringSplitOptions.None));
             }
 
+            return RemoveNonNumbers(delimitersAndNumbers);
+        }
+
+        private static IEnumerable<string> RemoveNonNumbers(IList<string> delimitersAndNumbers)
+        {
             delimitersAndNumbers.RemoveAt(0);
             delimitersAndNumbers.RemoveAt(0);
             return delimitersAndNumbers;
         }
+ 
 
         private static bool ContainsCustomDelimiter(string input)
         {
