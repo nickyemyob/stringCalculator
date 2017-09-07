@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StringCalculator
 {
     public class StringCalculator
     {
         private readonly InputParser _inputParser;
-
         private const string ErrorMessage = "Negatives not allowed:";
 
         public StringCalculator(InputParser inputParser)

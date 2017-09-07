@@ -44,19 +44,16 @@ namespace StringCalculator
         {
             var tempDelimiter = "";
             var delimiters = new List<string>();
-            foreach (var str in multipleDelimiters)
+            foreach (var character in multipleDelimiters)
             {
-                if (str.Equals('['))
+                if (!character.Equals('[') && !character.Equals(']'))
                 {
+                    tempDelimiter += character;
                 }
-                else if (str.Equals(']'))
+                else if (character.Equals(']'))
                 {
                     delimiters.Add(tempDelimiter);
                     tempDelimiter = "";
-                }
-                else
-                {
-                    tempDelimiter += str;
                 }
             }
             return delimiters.ToArray();
