@@ -20,8 +20,8 @@ namespace StringCalculator
             {
                 return count;
             }
-
             var numbersAsInts = _inputParser.ExtractNumbersAsInts(input);
+
             var negativeNumbers = new List<int>();
 
             foreach (var number in numbersAsInts)
