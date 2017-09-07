@@ -28,20 +28,7 @@ namespace StringCalculator
             return numbers.Select(int.Parse).ToList();
         }
 
-        private IEnumerable<string> ExtractNumbersToStringList(string numbers)
-        {
-            if (!numbers.StartsWith(DelimiterHeader))
-            {
-                return new List<string>(numbers.Split(DefaultDelimiters));
-            }
-
-            var delimitersAndNumbers = new List<string>(numbers.Split(DelimitersAndNumbersSeparator));
-            var delimiter = ExtractDelimiter(delimitersAndNumbers[0]);
-
-            return ExtractNumbers(delimitersAndNumbers, delimiter);
-        }
-
-        private string[] ExtractDelimiter(string stringContainingDelimiter)
+        private static string[] ExtractDelimiter(string stringContainingDelimiter)
         {
             var delimiter = stringContainingDelimiter.Replace(DelimiterHeader, "");
             if (delimiter.Equals(""))
