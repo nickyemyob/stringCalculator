@@ -53,6 +53,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="InputParser.cs" />
     <Compile Include="StringCalculator.cs" />
     <Compile Include="StringCalculatorShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -29,17 +29,16 @@ namespace StringCalculator
         [Test, TestCaseSource(nameof(AddCases))]
         public void AddStrings(int expected, string numbers)
         {
-            StringCalculator stringCalculator = new StringCalculator();
+            var stringCalculator = new StringCalculator(new InputParser());
             var result = stringCalculator.Add(numbers);
             Assert.AreEqual(expected, result);
         }
 
         [Test]
-        public void ThrowExceptionWhenGivenNegativeNumber()
+        public void ThrowExceptionWhenGivenANegativeNumber()
         {
-            StringCalculator stringCalculator = new StringCalculator();
+            var stringCalculator = new StringCalculator(new InputParser());
             Assert.Throws<ArgumentException>(() => stringCalculator.Add("-1,-2"));
-
             Assert.That(() => stringCalculator.Add("-1,-2"),Throws.TypeOf<ArgumentException>().With.Message.EqualTo("Negatives not allowed: -1 -2"));
         }
     }
