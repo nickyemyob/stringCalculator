@@ -6,14 +6,13 @@ namespace StringCalculator
 {
     public class StringCalculator
     {
+        private readonly InputParser _inputParser;
+        private const string ErrorMessage = "Negatives not allowed:";
 
-        private readonly StringToListParser _stringToListParser;
-
-        public StringCalculator()
+        public StringCalculator(InputParser inputParser)
         {
-            _stringToListParser = new StringToListParser();
+            _inputParser = inputParser;
         }
-
         public int Add(string input)
         {
             var count = 0;
@@ -21,12 +20,11 @@ namespace StringCalculator
             {
                 return count;
             }
+            var numbersAsInts = _inputParser.ExtractNumbersAsInts(input);
 
-            var numbersAsStringList = _stringToListParser.ExtractNumbersToList(input);
-            var numbersAsIntList = numbersAsStringList.Select(int.Parse).ToList();
             var negativeNumbers = new List<int>();
 
-            foreach (var number in numbersAsIntList)
+            foreach (var number in numbersAsInts)
             {
                 if (number < 0)
                 {
@@ -45,9 +43,18 @@ namespace StringCalculator
                 return count;
             }
 
-            var errorMessage = _stringToListParser.BuildErrorMessage(negativeNumbers);
+            var errorMessage = BuildErrorMessage(negativeNumbers);
             throw new ArgumentException(errorMessage);
+        }
 
+        private static string BuildErrorMessage(IEnumerable<int> negativeNumbers)
+        {
+            var errorMessage = ErrorMessage;
+            foreach (var number in negativeNumbers)
+            {
+                errorMessage += " " + number;
+            }
+            return errorMessage;
         }
     }
 }
