@@ -31,18 +31,13 @@ namespace StringCalculator
         private static string[] ExtractDelimiter(string stringContainingDelimiter)
         {
             var delimiter = stringContainingDelimiter.Replace(DelimiterHeader, "");
+
             if (delimiter.Equals(""))
             {
                 return new[] { "\n" };
             }
-            var firstBracketIndex = delimiter.IndexOf("[", StringComparison.Ordinal);
-            var lastBracketIndex = delimiter.LastIndexOf("]", StringComparison.Ordinal);
-            if (firstBracketIndex <= -1 || lastBracketIndex <= -1)
-            {
-                return new[] { delimiter };
-            }
 
-            return ExtractMultipleDelimiters(delimiter);
+            return ContainsMultipleDelimiters(delimiter) ? ExtractMultipleDelimiters(delimiter) : new[] { delimiter };
         }
 
         private static string[] ExtractMultipleDelimiters(string multipleDelimiters)
@@ -82,6 +77,12 @@ namespace StringCalculator
             delimitersAndNumbers.RemoveAt(0);
             delimitersAndNumbers.RemoveAt(0);
             return delimitersAndNumbers;
+        }
+
+        private static bool ContainsMultipleDelimiters(string delimiter)
+        {
+            return delimiter.IndexOf("[", StringComparison.Ordinal) > -1 && 
+                delimiter.LastIndexOf("]", StringComparison.Ordinal) > -1;
         }
     }
 }
