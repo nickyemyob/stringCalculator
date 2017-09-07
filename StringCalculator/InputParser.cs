@@ -10,15 +10,27 @@ namespace StringCalculator
         private const string DelimiterHeader = "//";
         private static readonly char[] DefaultDelimiters = { ',', '\n' };
 
-        public IEnumerable<int> ExtractNumbersAsInts(string numbers)
+        public IEnumerable<int> ExtractNumbersAsInts(string input)
         {
-            var numbersAsStringList = ExtractNumbersToStringList(numbers);
-            return numbersAsStringList.Select(int.Parse).ToList();
+            IEnumerable<string> numbers;
+
+            if (!input.StartsWith(DelimiterHeader))
+            {
+                numbers = new List<string>(input.Split(DefaultDelimiters));
+            }
+            else
+            {
+                var delimitersAndNumbers = new List<string>(input.Split(DelimitersAndNumbersSeparator));
+                var delimiter = ExtractDelimiter(delimitersAndNumbers[0]);
+                numbers = ExtractNumbers(delimitersAndNumbers, delimiter);
+            }
+
+            return numbers.Select(int.Parse).ToList();
         }
 
         private IEnumerable<string> ExtractNumbersToStringList(string numbers)
         {
-            if (!ContainsCustomDelimiter(numbers))
+            if (!numbers.StartsWith(DelimiterHeader))
             {
                 return new List<string>(numbers.Split(DefaultDelimiters));
             }
@@ -44,7 +56,6 @@ namespace StringCalculator
             }
 
             return ExtractMultipleDelimiters(delimiter);
-
         }
 
         private static string[] ExtractMultipleDelimiters(string multipleDelimiters)
@@ -84,12 +95,6 @@ namespace StringCalculator
             delimitersAndNumbers.RemoveAt(0);
             delimitersAndNumbers.RemoveAt(0);
             return delimitersAndNumbers;
-        }
-
-
-        private static bool ContainsCustomDelimiter(string input)
-        {
-            return input.StartsWith(DelimiterHeader);
         }
     }
 }
