@@ -53,9 +53,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="InputParser.cs" />
-    <Compile Include="StringCalculator.cs" />
-    <Compile Include="StringCalculatorShould.cs" />
+    <Compile Include="src\InputParser.cs" />
+    <Compile Include="src\StringCalculator.cs" />
+    <Compile Include="Tests\StringCalculatorShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
